@@ -25,4 +25,7 @@ class MyRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 Handler = MyRequestHandler
 server  = SocketServer.TCPServer(('0.0.0.0', 8080), Handler)
 
-server.serve_forever()
+try:
+	server.serve_forever()
+except KeyboardInterrupt:
+	server.server_close()
