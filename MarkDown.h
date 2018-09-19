@@ -472,21 +472,14 @@ class List : public MD_Block
 			for ( int idx = 0; idx < md_data->size(); idx++ )
 			{
 				string *str = &( md_data->at( idx ));
-				int dot 	= str->find( ". " );
-				int bracket = str->find( ") " );
-				int star    = str->find( "* " );
-				int dash    = str->find( "- " );
+				int min		= find_min( *str );
 
-				if ( dot == -1 ) dot = bracket;
-				if ( dot == -1 ) dot = star;
-				if ( dot == -1 ) dot = bracket;
-				
 				int indent = 0;
-				for ( ; indent < dot; indent++ )
+				for ( ; indent < min; indent++ )
 					if ( str->at( indent ) != ' ' )
 						break;
 
-				string tmp = str->substr( indent, dot );
+				string tmp = str->substr( indent, min );
 
 				char number[10];
 				sprintf( number, "%d", atoi( tmp.c_str() ));
@@ -498,6 +491,25 @@ class List : public MD_Block
 			return true;
 		}
 
+		int find_min( string str )
+		{
+			int dot 	= str.find( ". " );
+			int bracket = str.find( ") " );
+			int star	= str.find( "* " );
+			int dash	= str.find( "- " );
+
+			if ( dot == -1 )	 dot	 = 10000;
+			if ( bracket == -1 ) bracket = 10000;
+			if ( star == -1 ) 	 star	 = 10000;
+			if ( dash == -1 )	 dash	 = 10000;
+
+			if ( dot > bracket ) dot	 = bracket;
+			if ( dot > star )	 dot	 = star;
+			if ( dot > dash )	 dot	 = dash;
+
+			return ( dot == 10000 ) ? -1 : dot;
+		}
+
 		int form_list( vs *md_data, int idx, int indent, bool numbered = false )
 		{
 			bool start = false;
@@ -505,21 +517,14 @@ class List : public MD_Block
 			while( idx < md_data->size() )
 			{
 				string *str = &( md_data->at( idx ));
-				int dot 	= str->find( ". " );
-				int bracket = str->find( ") " );
-				int star	= str->find( "* " );
-				int dash	= str->find( "- " );
-
-				if ( dot == -1 ) dot = bracket;
-				if ( dot == -1 ) dot = star;
-				if ( dot == -1 ) dot = dash;
+				int min		= find_min( *str );
 
 				int i = 0;
-				for ( ; i<dot; i++ )
+				for ( ; i<min; i++ )
 					if ( str->at( i ) != ' ' )
 						break;
 
-				string tmp = str->substr( i, dot );
+				string tmp = str->substr( i, min );
 
 				char number[10];
 				sprintf( number, "%d", atoi( tmp.c_str() ));
@@ -528,22 +533,22 @@ class List : public MD_Block
 				if ( !( num_str.at(0) > '0' ))
 					num_str.clear();
 
-				dot -= num_str.length();
+				min -= num_str.length();
 
-				if ( dot == i && dot == indent )
+				if ( min == i && min == indent )
 				{
 					if ( !start )
 					{
 						if ( num_str.length() > 0 )
-							str->replace( 0, dot+num_str.length()+2, "<ol><li>" );
+							str->replace( 0, min+num_str.length()+2, "<ol><li>" );
 						else
-							str->replace( 0, dot+2, "<ul><li>" );
+							str->replace( 0, min+2, "<ul><li>" );
 						start = true;
 					}
 					else
-						str->replace( 0, dot+num_str.length()+2, "</li><li>" );
+						str->replace( 0, min+num_str.length()+2, "</li><li>" );
 				}
-				else if ( dot == i && dot > indent )
+				else if ( min == i && min > indent )
 				{
 					idx = form_list( md_data, idx, i, num_str.length() > 0 );
 					continue;
