@@ -479,7 +479,7 @@ class List : public MD_Block
 					if ( str->at( indent ) != ' ' )
 						break;
 
-				string tmp = str->substr( indent, min );
+				string tmp = str->substr( indent, min-indent );
 
 				char number[10];
 				sprintf( number, "%d", atoi( tmp.c_str() ));
@@ -524,7 +524,7 @@ class List : public MD_Block
 					if ( str->at( i ) != ' ' )
 						break;
 
-				string tmp = str->substr( i, min );
+				string tmp = str->substr( i, min-i );
 
 				char number[10];
 				sprintf( number, "%d", atoi( tmp.c_str() ));
