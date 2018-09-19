@@ -16,7 +16,7 @@
 int main()
 {
 	MarkDown md;
-    cout << md.MarkDown_Text( "> MarkDown Text" );
+        cout << md.MarkDown_Text( "> MarkDown Text" );
 
 	return 0;
 }
