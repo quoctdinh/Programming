@@ -24,3 +24,36 @@ int main()
 >
 > gcc test.cpp -lstdc++
 >
+
+##### CodeHighlighter.h
+```
+#include "CodeHighlighter.h"
+
+int main()
+{
+        FileIO f;
+        BrushCpp brush;
+
+        vector<wchar_t> data   = f.loadFile( "example.cpp" );
+        vector<wchar_t> result = brush.search_html_replace( data );
+
+        wcout << L"<!DOCTYPE html><html><head><style type=\"text/css\">" << endl;
+        wcout << L".strings { color: blue; }" << endl;
+        wcout << L".datatypes { color: green; font-weight: bold; }" << endl;
+        wcout << L".keywords { color: red; }" << endl;
+        wcout << L".preprocessor { color: yellow; font-weight: bold; }" << endl;
+        wcout << L"</style></head><body><pre>" << endl;
+
+        for ( auto item: result )
+        {
+                wcout << item;
+        }
+
+        wcout << L"</pre></body></html>" << endl;
+        return 0;
+}
+```
+>
+> gcc test.cpp -lstdc++ -fpermissive
+>
+
