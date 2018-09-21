@@ -56,4 +56,6 @@ int main()
 >
 > gcc test.cpp -lstdc++ -fpermissive
 >
+> Note: gcc version need to be 8.2 or above
+>
 
