@@ -26,7 +26,7 @@ int main()
 >
 
 ##### CodeHighlighter.h
-```
+```cpp
 #include "CodeHighlighter.h"
 
 int main()
