@@ -41,7 +41,9 @@ int main()
         wcout << L".strings { color: blue; }" << endl;
         wcout << L".datatypes { color: green; font-weight: bold; }" << endl;
         wcout << L".keywords { color: red; }" << endl;
-        wcout << L".preprocessor { color: yellow; font-weight: bold; }" << endl;
+        wcout << L".preprocessors { color: yellow; font-weight: bold; }" << endl;
+        wcout << L".functions { color: purple; font-weight: bold; }" << endl;
+        wcout << L".comments { color: gray; }" << endl;
         wcout << L"</style></head><body><pre>" << endl;
 
         for ( auto item: result )
