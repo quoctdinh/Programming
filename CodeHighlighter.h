@@ -178,6 +178,7 @@ class BrushCpp: public Brush
 	public:
 		BrushCpp(): Brush()
 		{
+			addPattern( L"/\\*[\\s\\S]*?\\*/", L"comments" );
 			addPattern( L"//.*", L"comments" );
 			addPattern( convertKeywords( datatypes ), L"datatypes" );
 			addPattern( convertKeywords( keywords ),  L"keywords" );
