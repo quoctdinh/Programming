@@ -72,6 +72,9 @@ class Brush
 
 			for ( auto item: found_matches )
 			{
+				if ( pos > item.first )
+					continue;
+
 				for ( int i=pos; i<item.first; i++ )
 				{
 					if ( data[i] == L'<' )      _append( result, L"&lt;" );
@@ -82,9 +85,12 @@ class Brush
 
 				_append( result, L"<span class='" + item.second.second + L"'>" );
 				
-				for ( int i=0; i<item.second.first; i++ )
+				int i=0;
+				for ( ; i<item.second.first; i++ )
 				{
 					wchar_t c = data[ item.first+i ];
+					if ( c == L'(' )
+						break;
 					if ( c == L'<' )      _append( result, L"&lt;" );
 					else if ( c == L'>' ) _append( result, L"&gt;" );
 					else
@@ -92,6 +98,9 @@ class Brush
 				}
 
 				_append( result, L"</span>" );
+
+				if ( i != item.second.first )
+					result.push_back( L'(' );
 
 				pos = item.first + item.second.first;
 			}
@@ -173,8 +182,9 @@ class BrushCpp: public Brush
 			addPattern( convertKeywords( keywords ),  L"keywords" );
 			addPattern( L"L?" L"\"([^\\\\\"\\r\\n]|\\\\.)*\"", L"strings" );
 			addPattern( L"L?" L"'([^\\\\'\\r\\n]|\\\\.)*'", L"strings" );
-			addPattern( L"include|define|pragma|once", L"preprocessor" );
+			addPattern( L"include|define|pragma|once", L"preprocessors" );
 			addPattern( L"([<]([^\\\\'\\r\\n]|\\\\.)*[>])", L"include" );
+			addPattern( L"(\\b[0-9a-zA-Z_]+[\\s]*\\\()", L"functions" );
 		}
 
 	private:
