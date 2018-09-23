@@ -89,7 +89,7 @@ class Brush
 				for ( ; i<item.second.first; i++ )
 				{
 					wchar_t c = data[ item.first+i ];
-					if ( c == L'(' )
+					if ( c == L'(' && i==item.second.first-1 )
 						break;
 					if ( c == L'<' )      _append( result, L"&lt;" );
 					else if ( c == L'>' ) _append( result, L"&gt;" );
@@ -178,6 +178,7 @@ class BrushCpp: public Brush
 	public:
 		BrushCpp(): Brush()
 		{
+			addPattern( L"//.*", L"comments" );
 			addPattern( convertKeywords( datatypes ), L"datatypes" );
 			addPattern( convertKeywords( keywords ),  L"keywords" );
 			addPattern( L"L?" L"\"([^\\\\\"\\r\\n]|\\\\.)*\"", L"strings" );
