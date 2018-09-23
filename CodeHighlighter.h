@@ -184,7 +184,7 @@ class BrushCpp: public Brush
 			addPattern( convertKeywords( keywords ),  L"keywords" );
 			addPattern( L"L?" L"\"([^\\\\\"\\r\\n]|\\\\.)*\"", L"strings" );
 			addPattern( L"L?" L"'([^\\\\'\\r\\n]|\\\\.)*'", L"strings" );
-			addPattern( L"include|define|pragma|once", L"preprocessors" );
+			addPattern( L"\\b(include|define|pragma|once)\\b", L"preprocessors" );
 			addPattern( L"([<]([^\\\\'\\r\\n]|\\\\.)*[>])", L"include" );
 			addPattern( L"(\\b[0-9a-zA-Z_]+[\\s]*\\\()", L"functions" );
 		}
